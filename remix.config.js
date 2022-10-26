@@ -1,34 +1,15 @@
 /**
- * @type {import('@remix-run/dev/config').AppConfig}
+ * @type {import('@remix-run/dev').AppConfig}
  */
-const cloudflarePagesConfig = {
-    serverBuildTarget: 'cloudflare-pages',
-    server: './server-cloudflare-pages.js',
-    ignoredRouteFiles: ['**/.*'],
-};
-/**
- * @type {import('@remix-run/dev/config').AppConfig}
- */
-const netlifyConfig = {
-    serverBuildTarget: 'netlify',
-    server: './server-netlify.js',
-    ignoredRouteFiles: ['**/.*'],
-};
-/**
- * @type {import('@remix-run/dev/config').AppConfig}
- */
-const devConfig = {
-    appDirectory: 'app',
-    assetsBuildDirectory: 'public/build',
-    publicPath: '/build/',
-    serverBuildDirectory: 'build',
-    devServerPort: 8002,
-    ignoredRouteFiles: ['.*'],
-};
-
-module.exports =
-    process.env.NODE_ENV === 'development'
-        ? devConfig
-        : process.env.CF_PAGES
-        ? cloudflarePagesConfig
-        : netlifyConfig;
+ module.exports = {
+    serverBuildTarget: "vercel",
+    // When running locally in development mode, we use the built in remix
+    // server. This does not understand the vercel lambda module format,
+    // so we default back to the standard build output.
+    server: process.env.NODE_ENV === "development" ? undefined : "./server.js",
+    ignoredRouteFiles: ["**/.*"],
+    // appDirectory: "app",
+    // assetsBuildDirectory: "public/build",
+    // serverBuildPath: "api/index.js",
+    // publicPath: "/build/",
+  };
